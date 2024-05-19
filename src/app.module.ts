@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ExpensesModule } from './expenses/expenses.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot()
+    TypeOrmModule.forRoot(),
+    ExpensesModule
   ],
   controllers: [],
   providers: [],
