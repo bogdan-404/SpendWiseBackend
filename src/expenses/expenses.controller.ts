@@ -1,5 +1,3 @@
-// src/expenses/expenses.controller.ts
-
 import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { Expense } from './expense.entity';
