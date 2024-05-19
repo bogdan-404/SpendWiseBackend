@@ -1,3 +1,4 @@
+// src/expenses/expense.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
@@ -14,6 +15,6 @@ export class Expense {
     @Column()
     category: string;
 
-    @Column({ type: 'date' })
-    date: Date;
+    @Column()
+    date: string;
 }
