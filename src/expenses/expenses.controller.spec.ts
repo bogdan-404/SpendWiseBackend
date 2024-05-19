@@ -1,18 +1,33 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ExpensesController } from './expenses.controller';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { ExpensesService } from './expenses.service';
+import { Expense } from './expense.entity';
 
-describe('ExpensesController', () => {
-  let controller: ExpensesController;
+@Controller('expenses')
+export class ExpensesController {
+  constructor(private readonly expensesService: ExpensesService) {}
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [ExpensesController],
-    }).compile();
+  @Post()
+  create(@Body() expense: Expense) {
+    return this.expensesService.create(expense);
+  }
 
-    controller = module.get<ExpensesController>(ExpensesController);
-  });
+  @Get()
+  findAll() {
+    return this.expensesService.findAll();
+  }
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.expensesService.findOne(id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() expense: Partial<Expense>) {
+    return this.expensesService.update(id, expense);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.expensesService.remove(id);
+  }
+}
