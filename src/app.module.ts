@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ExpensesModule } from './expenses/expenses.module';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import * as ormConfig from '../ormconfig.json';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
-    ExpensesModule
+    TypeOrmModule.forRoot(ormConfig as TypeOrmModuleOptions)
   ],
   controllers: [],
   providers: [],
