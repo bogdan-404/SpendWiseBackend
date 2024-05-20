@@ -1,36 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('expenses')
-@UseGuards(JwtAuthGuard)
 export class ExpensesController {
     constructor(private readonly expensesService: ExpensesService) {}
 
+    @UseGuards(AuthGuard('jwt'))
     @Post()
-    create(@Body() createExpenseDto: CreateExpenseDto) {
+    create(@Request() req, @Body() createExpenseDto: CreateExpenseDto) {
         return this.expensesService.create(createExpenseDto);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Get()
-    findAll() {
+    findAll(@Request() req) {
         return this.expensesService.findAll();
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findOne(@Request() req, @Param('id') id: string) {
         return this.expensesService.findOne(+id);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
+    update(@Request() req, @Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
         return this.expensesService.update(+id, updateExpenseDto);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Delete(':id')
-    remove(@Param('id') id: string) {
+    remove(@Request() req, @Param('id') id: string) {
         return this.expensesService.remove(+id);
     }
 }
