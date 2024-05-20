@@ -1,19 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Expense {
+export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    name: string;
-
-    @Column('float')
-    amount: number;
+    username: string;
 
     @Column()
-    category: string;
+    password: string;
 
-    @Column()
-    date: string;
+    @Column({ default: 'USER' })
+    role: string;
 }

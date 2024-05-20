@@ -1,17 +1,20 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import { ExpensesModule } from './expenses/expenses.module';
 
 @Module({
   imports: [
-    ExpensesModule,
     TypeOrmModule.forRoot({
-      type: 'sqlite',        // Set type to SQLite
-      database: 'db.sqlite', // Path to the SQLite file
+      type: 'sqlite',
+      database: 'database.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,     // Synchronize the database schema on startup
+      synchronize: true,
     }),
+    UsersModule,
+    AuthModule,
+    ExpensesModule,
   ],
 })
 export class AppModule {}

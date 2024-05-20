@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Expense } from './expense.entity';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
 
 @Injectable()
 export class ExpensesService {
@@ -10,20 +12,22 @@ export class ExpensesService {
         private readonly expensesRepository: Repository<Expense>,
     ) {}
 
+    create(createExpenseDto: CreateExpenseDto): Promise<Expense> {
+        const expense = this.expensesRepository.create(createExpenseDto);
+        return this.expensesRepository.save(expense);
+    }
+
     findAll(): Promise<Expense[]> {
         return this.expensesRepository.find();
     }
 
     findOne(id: number): Promise<Expense> {
-        return this.expensesRepository.findOneBy({ id });
+        return this.expensesRepository.findOne({ where: { id } });
     }
 
-    create(expense: Expense): Promise<Expense> {
-        return this.expensesRepository.save(expense);
-    }
-
-    async update(id: number, expenseData: Partial<Expense>): Promise<void> {
-        await this.expensesRepository.update(id, expenseData);
+    async update(id: number, updateExpenseDto: UpdateExpenseDto): Promise<Expense> {
+        await this.expensesRepository.update(id, updateExpenseDto);
+        return this.findOne(id);
     }
 
     async remove(id: number): Promise<void> {
